@@ -1,15 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace courierManagement_backend
 {
@@ -25,6 +18,16 @@ namespace courierManagement_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Cors Policy
+            services.AddCors(options => {
+                options.AddPolicy("AllowSpecificOrigin", builder =>
+                     builder.WithOrigins(new[] { "http://localhost:5173" })
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials()
+                ); 
+               }
+            );
             services.AddControllers();
         }
 
@@ -39,6 +42,8 @@ namespace courierManagement_backend
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //Enable Cors policy
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseAuthorization();
 
