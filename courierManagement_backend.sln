@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34301.259
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "courierManagement_backend", "courierManagement_backend\courierManagement_backend.csproj", "{E310FEBA-E398-4ECA-B86A-B127A103AC5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "courierManagement_backend", "courierManagement_backend\courierManagement_backend.csproj", "{E310FEBA-E398-4ECA-B86A-B127A103AC5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{A87FB27D-511E-471E-B6FC-5B9D4AEBEFCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{A87FB27D-511E-471E-B6FC-5B9D4AEBEFCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationService", "ApplicationService\ApplicationService.csproj", "{E61EC299-B1F9-48DA-95E2-893B16D43459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationService", "ApplicationService\ApplicationService.csproj", "{E61EC299-B1F9-48DA-95E2-893B16D43459}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{D274E24A-D9AE-4ECA-A609-34722AC187D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{D274E24A-D9AE-4ECA-A609-34722AC187D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurations", "Configurations\Configurations.csproj", "{39BB47FE-DE88-46EC-A831-9A04EDE8AC8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D274E24A-D9AE-4ECA-A609-34722AC187D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D274E24A-D9AE-4ECA-A609-34722AC187D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D274E24A-D9AE-4ECA-A609-34722AC187D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39BB47FE-DE88-46EC-A831-9A04EDE8AC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39BB47FE-DE88-46EC-A831-9A04EDE8AC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39BB47FE-DE88-46EC-A831-9A04EDE8AC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39BB47FE-DE88-46EC-A831-9A04EDE8AC8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

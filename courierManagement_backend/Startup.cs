@@ -1,15 +1,9 @@
+using Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace courierManagement_backend
 {
@@ -25,7 +19,30 @@ namespace courierManagement_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            LoadConfigurations();
+
+            //Cors Policy
+            services.AddCors(options => {
+                options.AddPolicy("AllowSpecificOrigin", builder =>
+                     builder.WithOrigins(new[] { "http://localhost:5173" })
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials()
+                ); 
+               }
+            );
             services.AddControllers();
+        }
+
+        private void LoadConfigurations() {
+            AppSettings.DatabaseURL = Configuration.GetSection("ConnectionString:DatabaseURL").Value;
+            AppSettings.SecretKey = Configuration.GetSection("OauthSettings:SecretKey").Value;
+            AppSettings.TokenExpiration = Configuration.GetSection("OauthSettings:TokenExpiration").Value;
+
+            AppSettings.CookieDomain = Configuration.GetSection("Cookies:Domain").Value;
+            AppSettings.CookieExpire = Configuration.GetSection("Cookies:Expires").Value;
+            AppSettings.CookiePath = Configuration.GetSection("Cookies:Path").Value;
+            AppSettings.CookieName = Configuration.GetSection("Cookies:CookieName").Value;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +56,8 @@ namespace courierManagement_backend
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //Enable Cors policy
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseAuthorization();
 
