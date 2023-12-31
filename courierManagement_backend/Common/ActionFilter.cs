@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Configurations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
@@ -30,7 +31,7 @@ namespace courierManagement_backend.Common
 
             try
             {
-                var jwtCookie = context.HttpContext.Request.Cookies["jwt"];
+                var jwtCookie = context.HttpContext.Request.Cookies[AppSettings.CookieName];
                 if (string.IsNullOrEmpty(jwtCookie))
                 {
                     context.Result = new UnauthorizedResult();
@@ -60,14 +61,14 @@ namespace courierManagement_backend.Common
                 else
                 {
                     CookieOptions options = new CookieOptions();
-                    options.Expires = DateTime.Now.AddMinutes(5);
+                    options.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.CookieExpire));
                     options.HttpOnly = true;
-                    options.Path = "/";
+                    options.Path = AppSettings.CookiePath;
                     options.Secure = true;
                     options.SameSite = SameSiteMode.None;
-                    options.Domain = "localhost";
+                    options.Domain = AppSettings.CookieDomain;
 
-                    context.HttpContext.Response.Cookies.Append("jwt", jwtCookie, options);
+                    context.HttpContext.Response.Cookies.Append(AppSettings.CookieName, jwtCookie, options);
                 }
             }
             else
@@ -78,7 +79,7 @@ namespace courierManagement_backend.Common
 
         private IIdentity ReadJwtToken(string jwttoken, ActionExecutingContext context, out SecurityToken securityToken)
         {
-            string secret = "courier_service_management_application";
+            string secret = AppSettings.SecretKey;
             var key = Encoding.ASCII.GetBytes(secret);
             var handler = new JwtSecurityTokenHandler();
             var validations = new TokenValidationParameters

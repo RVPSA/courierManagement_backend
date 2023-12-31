@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Configurations;
+using System;
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -7,7 +8,7 @@ namespace DAL
     public class DataService : IDataService
     {
         //Variables
-        private string _connectionString = "Data Source=DESKTOP-NT0LTQI\\SQLEXPRESS;Initial Catalog=courier;Integrated Security=True";
+        private string _connectionString = AppSettings.DatabaseURL;
         private SqlConnection sqlConnection;
         private SqlDataReader sqlDataReader;
         private SqlTransaction sqlTransaction;

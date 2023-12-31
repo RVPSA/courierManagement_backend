@@ -1,6 +1,7 @@
 ﻿using ApplicationService.User;
 using BusinessObjects.Common;
 using BusinessObjects.User;
+using Configurations;
 using DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +29,7 @@ namespace courierManagement_backend.Controllers.UserController
         public void GetUser() {
             IDataService dataService = DataServiceBuilder.CreateDataService();
             DbParameter[] paramCollection = new DbParameter[1];
-            paramCollection[0] = DataServiceBuilder.createDBParameter("@RoleId",System.Data.DbType.Int32,System.Data.ParameterDirection.Input,
+            paramCollection[0] = DataServiceBuilder.createDBParameter("@RoleId", System.Data.DbType.Int32, System.Data.ParameterDirection.Input,
                 1);
             DbDataReader reader = dataService.ExecuteReader("[UM].[GetUserbyId]", paramCollection);
             if (reader.HasRows)
@@ -43,7 +44,7 @@ namespace courierManagement_backend.Controllers.UserController
 
         [HttpPost]
         [AllowAnonymous]
-        public GeneralResponse LoginUSer(LoginUser loginUser) { 
+        public GeneralResponse LoginUSer(LoginUser loginUser) {
 
             UserApplicationService userApplicationService = new UserApplicationService();
             try {
@@ -60,7 +61,7 @@ namespace courierManagement_backend.Controllers.UserController
                 }
             }
             catch (Exception ex) {
-                
+
                 return this.ResponseMessage(200, "Exception", ex.Message);
             }
         }
@@ -68,7 +69,7 @@ namespace courierManagement_backend.Controllers.UserController
         private string CreateJWt(LoginUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("courier_service_management_application");
+            var key = Encoding.ASCII.GetBytes(AppSettings.SecretKey);
 
             //claims
             Claim[] claim = new Claim[] {
@@ -79,7 +80,7 @@ namespace courierManagement_backend.Controllers.UserController
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claim),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(Convert.ToDouble(AppSettings.TokenExpiration)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -88,13 +89,13 @@ namespace courierManagement_backend.Controllers.UserController
 
         private void CreateCookie(string token) {
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddMinutes(5);
+            options.Expires = DateTime.Now.AddMinutes(Convert.ToInt32(AppSettings.CookieExpire));
             options.HttpOnly = true;
-            options.Path = "/";
+            options.Path = AppSettings.CookiePath;
             options.Secure = true;
             options.SameSite = SameSiteMode.None;
-            options.Domain = "localhost";
-            Response.Cookies.Append("jwt",token,options);
+            options.Domain = AppSettings.CookieDomain;
+            Response.Cookies.Append(AppSettings.CookieName,token,options);
         }
 
 
