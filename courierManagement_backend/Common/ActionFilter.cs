@@ -91,6 +91,21 @@ namespace courierManagement_backend.Common
             };
 
             var claim = handler.ValidateToken(jwttoken, validations, out var tokenSecure);
+
+            //get claims from token and add on headers
+            string userName = claim.Claims.Where(t => t.Type == "userName").FirstOrDefault().Value;
+            string userRoleId = claim.Claims.Where(t => t.Type == "userRoleId").FirstOrDefault().Value;
+            string userId = claim.Claims.Where(t => t.Type == "UserId").FirstOrDefault().Value;
+
+            if (!context.HttpContext.Request.Headers.ContainsKey("userName"))
+                context.HttpContext.Request.Headers.Add("userName", userName);
+
+            if (!context.HttpContext.Request.Headers.ContainsKey("userRoleId"))
+                context.HttpContext.Request.Headers.Add("userRoleId",userRoleId);
+
+            if (!context.HttpContext.Request.Headers.ContainsKey("UserId"))
+                context.HttpContext.Request.Headers.Add("UserId",userId);
+
             securityToken = tokenSecure;
             return claim.Identity;
 

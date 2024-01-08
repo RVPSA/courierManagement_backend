@@ -51,7 +51,7 @@ namespace courierManagement_backend.Controllers.UserController
                 var response = userApplicationService.LoginUser(loginUser);
                 if (response != null)
                 {
-                    string token = CreateJWt(loginUser);
+                    string token = CreateJWt(response);
                     CreateCookie(token);
 
                     return this.ResponseMessage(200, "Success", response);
@@ -62,11 +62,11 @@ namespace courierManagement_backend.Controllers.UserController
             }
             catch (Exception ex) {
 
-                return this.ResponseMessage(200, "Exception", ex.Message);
+                return this.ResponseMessage(500, "Exception", ex.Message);
             }
         }
 
-        private string CreateJWt(LoginUser user)
+        private string CreateJWt(LoginUserResponse user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(AppSettings.SecretKey);
@@ -74,7 +74,8 @@ namespace courierManagement_backend.Controllers.UserController
             //claims
             Claim[] claim = new Claim[] {
                 new Claim("userName",user.UserName.ToString()),
-                new Claim("userRoleId",Convert.ToString(1)),
+                new Claim("userRoleId",user.UserRoleId.ToString()), 
+                new Claim("UserId",user.UserId.ToString()),
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor()
@@ -96,6 +97,51 @@ namespace courierManagement_backend.Controllers.UserController
             options.SameSite = SameSiteMode.None;
             options.Domain = AppSettings.CookieDomain;
             Response.Cookies.Append(AppSettings.CookieName,token,options);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public GeneralResponse RegisterUser(RegisterUser userRegister) {
+            UserApplicationService userApplicationService = new UserApplicationService();
+            try {
+                RegisterUserResponse registerUserResponse =  userApplicationService.RegisterUser(userRegister);
+                return this.ResponseMessage(200,"Success",registerUserResponse);
+            }
+            catch (Exception ex) {
+                return this.ResponseMessage(500,"Exception",ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public GeneralResponse AddUserDetails(UserDetails userDetails) {
+            UserApplicationService userApplicationService = new UserApplicationService();
+
+            try {
+                Session session = this.GetSession();
+
+                UserDetails _userDetails = new UserDetails
+                {
+                    FirstName = userDetails.FirstName,
+                    LastName = userDetails.LastName,
+                    Address = userDetails.Address,
+                    PhoneNumber = userDetails.PhoneNumber,
+                    DateOfBirth = userDetails.DateOfBirth,
+                    UserId = session.UserId
+                };
+
+                int result = userApplicationService.AddUserDetails(_userDetails);
+                if (result == 0)
+                {
+                    return this.ResponseMessage(200, "Fail", null);
+                }
+                else {
+                    return this.ResponseMessage(200, "Success", null);
+                }
+
+            }
+            catch (Exception ex) {
+                return this.ResponseMessage(500,"Exception",ex.Message);
+            }
         }
 
 
