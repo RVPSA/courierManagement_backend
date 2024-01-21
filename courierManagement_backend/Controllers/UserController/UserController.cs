@@ -29,7 +29,7 @@ namespace courierManagement_backend.Controllers.UserController
         public void GetUser() {
             IDataService dataService = DataServiceBuilder.CreateDataService();
             DbParameter[] paramCollection = new DbParameter[1];
-            paramCollection[0] = DataServiceBuilder.createDBParameter("@RoleId", System.Data.DbType.Int32, System.Data.ParameterDirection.Input,
+            paramCollection[0] = DataServiceBuilder.CreateDBParameter("@RoleId", System.Data.DbType.Int32, System.Data.ParameterDirection.Input,
                 1);
             DbDataReader reader = dataService.ExecuteReader("[UM].[GetUserbyId]", paramCollection);
             if (reader.HasRows)

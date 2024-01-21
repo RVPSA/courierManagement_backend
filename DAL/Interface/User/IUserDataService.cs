@@ -9,5 +9,7 @@ namespace DAL.Interface.User
     {
         public int RegisterUser(RegisterUser registerUser);
         public LoginUserResponse LoginUser(LoginUser loginUser);
+
+        public bool AddUserDetails(UserDetails userDetails);
     }
 }

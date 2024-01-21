@@ -63,8 +63,13 @@ namespace ApplicationService.User
         }
 
         public int AddUserDetails(UserDetails userDetails) {
+
+            IDataService dataService = DataServiceBuilder.CreateDataService();
             try {
-                return 0;
+                IUserDataService userDataService = new UserDataService(dataService);
+                bool result = userDataService.AddUserDetails(userDetails);
+
+                return result ? 1 : 0;
             }
             catch (Exception ex) {
                 throw ex;
