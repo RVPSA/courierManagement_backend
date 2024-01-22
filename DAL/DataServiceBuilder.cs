@@ -13,7 +13,7 @@ namespace DAL
             return new DataService();
         }
 
-        public static DbParameter createDBParameter(string paramName, DbType paramType, ParameterDirection parameterDirection
+        public static DbParameter CreateDBParameter(string paramName, DbType paramType, ParameterDirection parameterDirection
             ,object value) {
             SqlParameter param = new SqlParameter();
             param.DbType = paramType;
