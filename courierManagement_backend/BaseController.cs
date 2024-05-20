@@ -1,5 +1,6 @@
 ﻿using BusinessObjects.Common;
 using courierManagement_backend.Common;
+using LoggerService;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
@@ -19,6 +20,9 @@ namespace courierManagement_backend
                 Message = message,
                 Result = result,
             };
+
+            LogService.WriteLogMessage(message,LogService.LoggerLevel.Debug);
+
             return general;
         }
 

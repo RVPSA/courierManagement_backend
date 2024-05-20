@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using courierManagement_backend.Common;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace courierManagement_backend.Controllers
@@ -9,6 +10,7 @@ namespace courierManagement_backend.Controllers
 
         [HttpGet]
         public String Get() {
+
             return "Courier Management Backend server start";
         }
     }

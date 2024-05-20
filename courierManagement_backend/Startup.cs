@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NLog;
+using System;
+using System.IO;
 
 namespace courierManagement_backend
 {
@@ -11,6 +14,7 @@ namespace courierManagement_backend
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
