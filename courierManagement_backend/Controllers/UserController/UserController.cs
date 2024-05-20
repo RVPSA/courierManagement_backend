@@ -144,6 +144,16 @@ namespace courierManagement_backend.Controllers.UserController
             }
         }
 
+        /// <summary>
+        /// Only for testing
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public GeneralResponse AddListBulk() {
+            UserApplicationService userApplicationService = new UserApplicationService();
+            userApplicationService.AddBulkCustomer();
+            return this.ResponseMessage(200, "Success", null);
 
+        }
     }
 }
