@@ -2,6 +2,7 @@
 using DAL.Interface.User;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Text;
 
@@ -82,6 +83,21 @@ namespace DAL.User
             }
 
             
+        }
+
+        /// <summary>
+        /// Only for testing
+        /// </summary>
+        /// <param name="names"></param>
+        /// <returns></returns>
+        public bool AddListTest(DataTable names) {
+            DbParameter[] dbParameters = new DbParameter[1];
+
+            dbParameters[0] = DataServiceBuilder.CreateDataListParameter("@names",System.Data.ParameterDirection.Input,names);
+
+            _dataService.ExecuteNonQuery("UM.AddTestList", dbParameters);
+            return true;
+
         }
     }
 }

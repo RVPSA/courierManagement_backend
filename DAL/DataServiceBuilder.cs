@@ -22,5 +22,17 @@ namespace DAL
             param.Value = value;
             return param;
         }
+
+        public static DbParameter CreateDataListParameter(string paramName, ParameterDirection parameterDirection, object value) {
+            SqlParameter param = new SqlParameter();
+            param.SqlDbType = SqlDbType.Structured;
+            param.ParameterName = paramName;
+            param.Direction = parameterDirection;
+            param.Value = value;
+            if (value == null) {
+                param.Value = DBNull.Value;
+            }
+            return param;
+        }
     }
 }
